@@ -72,22 +72,6 @@ text_preprocessor = QuestionAnswer(df.copy(), column_name="questions")
 clean_df = text_preprocessor.run_all()
 clean_df.head(10)
 
-## helps to retrieve similar question based of input vectors/embeddings for test query
-def func_get_SimilarFAQ(train_question_vectors, test_question_vectors, train_df, train_column_name, test_df, test_column_name):
-    similar_question_index = []
-    for test_index, test_vector in enumerate(test_question_vectors):
-        sim, sim_Q_index = -1, -1
-        for train_index, train_vector in enumerate(train_question_vectors):
-            sim_score = cosine_similarity(train_vector, test_vector)[0][0]
-            
-            if sim < sim_score:
-                sim = sim_score
-                sim_Q_index = train_index
-
-        print(f"Query Question: {test_df[test_column_name].iloc[test_index]}")    
-        print(f"Get Question: {train_df[train_column_name].iloc[sim_Q_index]}")
-        print("\n")
-
 test_query_questions = ["Am I considered a close contact if I was wearing a mask?",
 "Is the virus that causes COVID-19 found in feces (stool)?",
 "Can the COVID-19 virus spread through sewerage systems?",
@@ -104,8 +88,8 @@ def func_get_bert_embeddings(sentences):
     bert_embedding = BertEmbedding()
     return bert_embedding(sentences)
 
-query_QA_bert_embeddings_list = func_get_bert_embeddings(test_df["test_questions"].to_list())
 question_QA_bert_embeddings_list = func_get_bert_embeddings(clean_df["questions"].to_list())
+query_QA_bert_embeddings_list = func_get_bert_embeddings(test_df["test_questions"].to_list())
 
 ## store QA bert embeddings in list
 question_QA_bert_embeddings = []
@@ -117,17 +101,22 @@ query_QA_bert_embeddings = []
 for embeddings in query_QA_bert_embeddings_list:
     query_QA_bert_embeddings.append(embeddings[1])
 
+## helps to retrieve similar question based of input vectors/embeddings for test query
+def func_get_SimilarFAQ(train_question_vectors, test_question_vectors, train_df, train_column_name, test_df, test_column_name):
+    similar_question_index = []
+    for test_index, test_vector in enumerate(test_question_vectors):
+        sim, sim_Q_index = -1, -1
+        for train_index, train_vector in enumerate(train_question_vectors):
+            sim_score = cosine_similarity(train_vector, test_vector)[0][0]
+            
+            if sim < sim_score:
+                sim = sim_score
+                sim_Q_index = train_index
+
+        print(f"Query Question: {test_df[test_column_name].iloc[test_index]}")    
+        print(f"Get Question: {train_df[train_column_name].iloc[sim_Q_index]}")
+        print("\n")
+        
 func_get_SimilarFAQ(question_QA_bert_embeddings, query_QA_bert_embeddings, clean_df, "questions", query_df, "test_questions")
-
-
-
-
-
-
-
-
-
-
-
 
 
