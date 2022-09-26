@@ -68,8 +68,8 @@ df = pd.read_csv("COVID19_FAQ.csv")
 df.head(10)
 
 ## pre-process training question data
-text_preprocessor = QuestionAnswer(df.copy(), column_name="questions")
-clean_df = text_preprocessor.run_all()
+question_answer = QuestionAnswer(df.copy(), column_name="questions")
+clean_df = question_answer.run_all()
 clean_df.head(10)
 
 test_query_questions = ["Am I considered a close contact if I was wearing a mask?",
@@ -80,8 +80,8 @@ test_query_questions = ["Am I considered a close contact if I was wearing a mask
 test_df = pd.DataFrame(test_query_questions, columns=["test_questions"])  
 
 ## pre-process testing QA data
-text_preprocessor = QuestionAnswer(test_df, column_name="test_questions")
-query_df = text_preprocessor.run_all()
+question_answer = QuestionAnswer(test_df, column_name="test_questions")
+query_df = question_answer.run_all()
 
 ## get bert embeddings
 def func_get_bert_embeddings(sentences):
@@ -118,5 +118,4 @@ def func_get_SimilarFAQ(train_question_vectors, test_question_vectors, train_df,
         print("\n")
         
 func_get_SimilarFAQ(question_QA_bert_embeddings, query_QA_bert_embeddings, clean_df, "questions", query_df, "test_questions")
-
 
