@@ -1,0 +1,38 @@
+%%writefile classification/Dockerfile
+
+FROM us-docker.pkg.dev/vertex-ai/training/tf-gpu.2-8:latest
+
+WORKDIR /
+
+# Copies the trainer code to the docker image.
+COPY trainer /trainer
+
+# Install models
+RUN pip install -r requirements.txt
+
+# Sets up the entry point to invoke the trainer
+ENTRYPOINT ["python", "-m", "app.py"]  
+
+
+
+# ###Build the container
+# PROJECT_ID='your-cloud-project'
+# REPO_NAME='classification-app'
+
+# gcloud artifacts repositories create $REPO_NAME --repository-format=docker \
+# --location=us-central1 --description="Docker repository"
+
+# ## Define a variable with the URI of your container image in Google Artifact Registry
+# IMAGE_URI=us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/flower_image:latest
+
+# ## Configure docker
+# gcloud auth configure-docker \
+#     us-central1-docker.pkg.dev
+
+# ### build the container by running the following from the root of your classification directory
+# docker build ./ -t $IMAGE_URI
+
+# ### push it to Artifact Registry
+# docker push $IMAGE_URI
+
+### link as https://codelabs.developers.google.com/vertex-p2p-training#3
