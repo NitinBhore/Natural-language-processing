@@ -9,7 +9,7 @@ import tensorflow_text as text # pylint: disable=unused-import
 Blueprint for the prediction of the sms (Ham or Spam)
 Args:
   model: Model for prediction
-  # text: List of the sentences or Dataframe
+  
 Returns:
   prediction_result : prediction whether sms is Ham or Spam
 """ # pylint: disable=pointless-string-statement
