@@ -1,0 +1,16 @@
+{
+  "Bert":{
+    "preprocess" : "https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3",
+    "encoder" : "https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/4"
+    },
+ 
+ "Albert":{
+    "preprocess" : "http://tfhub.dev/tensorflow/albert_en_preprocess/3",
+    "encoder" : "https://tfhub.dev/tensorflow/albert_en_base/3"
+    },
+ 
+ "RoBERTa":{
+    "preprocess" : "http://tfhub.dev/tensorflow/albert_en_preprocess/3",
+    "encoder" : "https://tfhub.dev/tensorflow/albert_en_base/3"
+   }
+ }
