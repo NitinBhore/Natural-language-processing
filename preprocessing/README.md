@@ -15,11 +15,11 @@ Preprocessing repository consists of the preprocessing python script for the Nat
 * TfidfVectorizer
 * Word2Vec Model
 
-**Build and test the preprocessing methods of NLP on the above-mentioned python script as per the requirements**
-Lower Casing
-White space removal
-Punctuation Mark Removal
-Stop Word Removal
-Tokenization
-Lemmatization
+**Build and test the preprocessing methods of NLP on the above-mentioned python script**
+* Lower Casing
+* White space removal
+* Punctuation Mark Removal
+* Stop Word Removal
+* Tokenization
+* Lemmatization
 
