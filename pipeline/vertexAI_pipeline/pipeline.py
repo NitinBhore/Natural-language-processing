@@ -83,7 +83,7 @@ from google_cloud_pipeline_components import aiplatform as gcc_aip
 @component(
     packages_to_install=["numpy","pandas", "sklearn", "tensorflow", "matplotlib", "seaborn"],
     base_image="python:3.9",
-    output_component_file="get_data.yaml"
+    output_component_file="get_data.yml"
 )
 
 def get_data(
