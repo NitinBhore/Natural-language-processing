@@ -8,5 +8,6 @@ text_similarity - Text similarity has to determine how 'close' two pieces of tex
 Args:
   * data_df: Name of the Dataframe
   * column_name : column name
+
 Returns: 
   * final_token : The list of the words
