@@ -4,8 +4,8 @@ preprocessing repository consists of the preprocessing python script for the Nat
 
 
 **Build the following embedding technique of NLP**
-BERT model
-ALBERT - A Lite BERT model
+-BERT model
+-ALBERT - A Lite BERT model
 RoBERTa - Robustly Optimized BERT Pretraining Approach
 GloVe-Contextualized Vectors
 LSTM
