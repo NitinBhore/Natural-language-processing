@@ -38,7 +38,6 @@ Returns:
 
 """
 
-
 class TextSimilarity():
     def __init__(self, data_df, column_name=None):
         """Init the Preprocessing"""
@@ -153,7 +152,7 @@ def func_get_SimilarFAQ(train_question_vectors, test_question_vectors, train_df,
                 final_similarity_score.append(sim_score)
                 sim_Q_index = train_index
         
-        print("final_similarity_score:", final_similarity_score.pop())    
+        print("final_similarity_score:", final_similarity_score.pop())
         print(f"Query Question: {test_df[test_column_name].iloc[test_index]}")    
         print(f"Get Question: {train_df[train_column_name].iloc[sim_Q_index]}")
         print("\n")
