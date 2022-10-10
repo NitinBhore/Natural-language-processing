@@ -26,4 +26,3 @@ Returns:
 
 **app.py** Flask is a Python-based microframework used for deploying the classifier
 
-**Docker** The Docker file holds the information of the docker container for the classifier model
