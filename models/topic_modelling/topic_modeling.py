@@ -1,43 +1,37 @@
 """Topic Modeling"""
 
-# ! pip install pyLDAvis
-
 # import libraries
-import pandas as pd
+import string, pprint
+import spacy
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
-import string, pprint
-import spacy
+from nltk.corpus import stopwords
+import pandas as pd
+import numpy as np
 # gensim for LDA
 import gensim
 import gensim.corpora as corpora
 from gensim.utils import simple_preprocess
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 """
-Topic modeling is an unsupervised machine learning technique that's capable of 
-scanning a set of documents, detecting word and phrase patterns within them, 
-and automatically clustering word groups and similar expressions that best 
-characterize a set of documents.
-
+Topic modeling is an unsupervised machine learning technique that's capable of
+scanning a set of documents, detecting word and phrase patterns within them,
+and automatically clustering word groups and similar expressions that best
+characterize a set of documents
 Args:
   df : Dataframe name
   text_column : text column name
-  num_topics  : number f 
-  chunksize : Size pf the chunk (By default is 100)
+  num_topics  : number f
+  chunksize=100 : Size pf the chunk (By default is 100)
   passes=10 : Number of passes (By default is 10)
-
-Returns: 
+Returns:
   model : topic LDA model
-
 """
-
 
 class TopicModelling():
     def __init__(self, df, text_column, num_topics, passes=10):
-        """Init the Preprocessing"""
+        """Inits the Preprocessing"""
         self.df = df
         self.text_column = text_column
         self.num_topics = num_topics
@@ -50,7 +44,8 @@ class TopicModelling():
 
     def remove_stopwords(self, texts, stop_words):
         """remove stopwords"""
-        return [[word for word in simple_preprocess(str(doc)) if word not in stop_words] for doc in texts]
+        return [[word for word in simple_preprocess(str(doc))
+                 if word not in stop_words] for doc in texts]
 
     # perform the lemmatization
     def lemmatization(self, texts, spacy_en_model, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
@@ -62,7 +57,7 @@ class TopicModelling():
         return texts_out
 
     def run_all(self):
-        """Run all the methods as per the requirements"""
+        """Run all the methods as per the requirments"""
         # convert to list
         data = self.df[self.text_column].values.tolist()
         data_words = list(self.sent_to_words(data))
@@ -91,15 +86,14 @@ class TopicModelling():
         corpus = [id2word.doc2bow(text) for text in data_lemmatized]
 
         # Build LDA model
-        lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus, id2word=id2word, num_topics=self.num_topics,
-                                                    random_state=100, update_every=1,
-                                                    passes=self.passes, alpha='auto', per_word_topics=True)
+        lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus, id2word=id2word,
+                              num_topics=self.num_topics, random_state=100,
+                              update_every=1, passes=self.passes, alpha='auto', per_word_topics=True)
 
         return lda_model
 
 
 df = pd.read_csv("Airbnb_Texas_Rentals.csv")
-
 topicModelling = TopicModelling(df, 'description', 4, 10)
 lda_model = topicModelling.run_all()
 
