@@ -58,7 +58,7 @@ from google_cloud_pipeline_components import aiplatform as gcc_aip
 # PROJECT_ID=shell_output[0]
 
 # # Set bucket name
-# BUCKET_NAME="gs://"+PROJECT_ID+"-bucket-winequality"
+# BUCKET_NAME="gs://"+PROJECT_ID+"-bucket-smsquality
 
 # # Create bucket
 # PIPELINE_ROOT = f"{BUCKET_NAME}/pipeline_root_wine/"
@@ -177,9 +177,9 @@ def train_sms(dataset: Input[Dataset], model: Output[Model]):
 
 @component(
     packages_to_install = ["numpy", "pandas", "sklearn", "tensorflow", "matplotlib", "seaborn"], base_image="python:3.9")
-def winequality_evaluation(
+def smsquality_evaluation(
     test_set:  Input[Dataset],
-    rf_winequality_model: Input[Model],
+    rf_smsquality_model: Input[Model],
     thresholds_dict_str: str,
     metrics: Output[ClassificationMetrics],
     kpi: Output[Metrics]
@@ -209,7 +209,7 @@ def winequality_evaluation(
     data = pd.read_csv(test_set.path+".csv")
     ####
 
-    file_name = rf_winequality_model.path + ".pkl"
+    file_name = rf_smsquality_model.path + ".pkl"
     with open(file_name, 'rb') as file:  
         model = pickle.load(file)
     
@@ -232,7 +232,7 @@ def winequality_evaluation(
     
     accuracy = accuracy_score(data.target, y_pred.round())
     thresholds_dict = json.loads(thresholds_dict_str)
-    rf_winequality_model.metadata["accuracy"] = float(accuracy)
+    rf_smsquality_model.metadata["accuracy"] = float(accuracy)
     kpi.log_metric("accuracy", float(accuracy))
     deploy = threshold_check(float(accuracy), int(thresholds_dict['roc']))
 
@@ -257,9 +257,9 @@ def deploy_smsequality(
     from google.cloud import aiplatform
     aiplatform.init(project=project, location=region)
 
-    DISPLAY_NAME  = "winequality"
-    MODEL_NAME = "winequality-rf"
-    ENDPOINT_NAME = "winequality_endpoint"
+    DISPLAY_NAME  = "smsquality"
+    MODEL_NAME = "smsquality-rf"
+    ENDPOINT_NAME = "smsquality_endpoint"
     
     def create_endpoint():
         endpoints = aiplatform.Endpoint.list(
@@ -325,15 +325,15 @@ def pipeline(
     
     data_op = get_data(url)
     train_model_op = train_sms(data_op.outputs["dataset_train"])
-    model_evaluation_op = winequality_evaluation(
+    model_evaluation_op = smsquality_evaluation(
         test_set=data_op.outputs["dataset_test"],
-        rf_winequality_model=train_model_op.outputs["model"],
+        rf_smsquality_model=train_model_op.outputs["model"],
         thresholds_dict_str = thresholds_dict_str, # I deploy the model anly if the model performance is above the threshold
     )
     
     with dsl.Condition(
         model_evaluation_op.outputs["deploy"]=="true",
-        name="deploy-winequality",
+        name="deploy-smsquality",
     ):
            
         deploy_model_op = deploy_smsequality(
@@ -344,12 +344,12 @@ def pipeline(
         )
 
 #### Run the pipeline
-compiler.Compiler().compile(pipeline_func=pipeline, package_path='ml_winequality.json')
+compiler.Compiler().compile(pipeline_func=pipeline, package_path='ml_smsquality.json')
 
 #### Create a run using the job spec file previously generated
 start_pipeline = pipeline_jobs.PipelineJob(
-    display_name="winequality-pipeline",
-    template_path="ml_winequality.json",
+    display_name="smsquality-pipeline",
+    template_path="ml_smsquality.json",
     enable_caching=True,
     location=REGION,
 )
@@ -357,20 +357,6 @@ start_pipeline = pipeline_jobs.PipelineJob(
 #### Run the pipeline
 
 start_pipeline.run()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
