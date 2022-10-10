@@ -3,8 +3,6 @@ This document describes the components like preprocessing, training, evaluation 
 
 **Inference** repository consists of the python scripts like app.py, prediction.py, requirements.txt and task.py
 
-***
-
       **task.py** file used to train the BERT classifier model
 
       Args:
@@ -33,7 +31,5 @@ This document describes the components like preprocessing, training, evaluation 
 
       **Docker** The Docker file holds the information of the docker container for the classifier model
 
-
-***
 
 **Docker** The Docker file holds the information of the docker container for the classifier model
