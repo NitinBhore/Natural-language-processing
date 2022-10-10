@@ -139,7 +139,7 @@ def train_classifier(dataset: Input[Dataset], model: Output[Model]):
 
     data = pd.read_csv(dataset.path+".csv")
     input= data['sms']
-    data['target']
+    target = data['target']
 
     ####
 
