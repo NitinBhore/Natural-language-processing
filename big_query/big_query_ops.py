@@ -1,4 +1,5 @@
 """Import library"""
+import pandas # pylint: disable=unused-import
 import pandas_gbq
 
 """
@@ -17,15 +18,12 @@ class BigQueryOps():  # pylint: disable=too-few-public-methods
 
     def load_data(self, table_id, dataframe):
         """Load a DataFrame to BigQuery with pandas-gbq"""
-        # self.table_id = table_id
-        # self.dataframe = dataframe
-        # pandas_gbq.to_gbq(self.dataframe, self.table_id, project_id=self.project_id)
-
-        pandas_gbq.to_gbq(dataframe, table_id, project_id=self.project_id)
+        self.table_id = table_id
+        self.dataframe = dataframe
+        pandas_gbq.to_gbq(self.dataframe, self.table_id, project_id=self.project_id)
 
     def query_table(self, sql_query):
         """Run a query with pandas-gbq"""
-        # self.sql_query = sql_query
-
-        dataframe = pandas_gbq.read_gbq(sql_query, project_id=self.project_id)
+        self.sql_query = sql_query
+        dataframe = pandas_gbq.read_gbq(self.sql_query, project_id=self.project_id)
         return dataframe
