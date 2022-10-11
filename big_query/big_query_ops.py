@@ -8,6 +8,8 @@ Args:
     table_id = Dataset with table name
     dataframe = Dataframe Name
     sql_query = Sql query
+Returns:
+    Dataframe: Returns the executed query result
 """
 class BigQueryOps():  # pylint: disable=too-few-public-methods
     """Blueprint of BigQuery operations like load the data on biqQuery table and query the table"""
