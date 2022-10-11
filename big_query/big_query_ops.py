@@ -1,5 +1,4 @@
 """Import library"""
-import pandas # pylint: disable=unused-import
 import pandas_gbq
 
 """
