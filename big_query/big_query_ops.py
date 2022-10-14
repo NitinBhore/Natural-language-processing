@@ -11,7 +11,7 @@ Args:
 Returns:
     Dataframe: Returns the executed query result
 """
-class BigQueryOps():  # pylint: disable=too-few-public-methods
+class BigQueryOps:  # pylint: disable=too-few-public-methods
     """Blueprint of BigQuery operations like load the data on biqQuery table and query the table"""
     def __init__(self, project_id):
         """Inits the big querry operations"""
